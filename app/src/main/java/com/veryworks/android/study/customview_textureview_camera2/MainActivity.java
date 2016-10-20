@@ -42,10 +42,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+ 소스출처 : 이것도 어딘가에서 퍼왔는데... 어딜까.. ;;
+ */
+
 public class MainActivity extends AppCompatActivity {
 
-
-    /** Output files will be saved as /sdcard/Pictures/cameratoo*.jpg */
     static final String TAG = "Camera2Test";
     private Button takePictureButton;
     private TextureView textureView;
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 1. 서피스 준비
-
     // 텍스처뷰의 상태변화에 따라 콜백
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
         @Override
@@ -114,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
     private final CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice camera) {
-            //This is called when the camera is open
             Log.e(TAG, "onOpened");
             cameraDevice = camera;
             // 5. 카메라가 열린 상태이면 카메라 Preview를 준비하고
@@ -352,7 +352,6 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                // close the app
                 Toast.makeText(MainActivity.this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
                 finish();
             }
@@ -372,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         Log.e(TAG, "onPause");
-        //closeCamera();
+        // 여기쯤 closeCamera가 호출되야 되나본데... ㅡㅡ^
         stopBackgroundThread();
         super.onPause();
     }
