@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         ORIENTATIONS.append(Surface.ROTATION_180, 270);
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
+
     private String cameraId;
     protected CameraDevice cameraDevice;
     protected CameraCaptureSession cameraCaptureSessions;
@@ -76,11 +77,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         textureView = (TextureView) findViewById(R.id.texture);
         assert textureView != null;
+
         textureView.setSurfaceTextureListener(textureListener);
+
         takePictureButton = (Button) findViewById(R.id.btn_takepicture);
         assert takePictureButton != null;
+
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
             //13. 위에서 정의한 리더리스너를 10.에서 준비한 리더에 세팅한다
             reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
 
-            //14. 캡쳐완료 리스너를 미리 준비하고
+            //16. 캡쳐완료 리스너를 미리 준비하고
             final CameraCaptureSession.CaptureCallback captureListener = new CameraCaptureSession.CaptureCallback() {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
@@ -246,14 +251,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-            //15. 캡쳐 세션을 시작한다
+            //14. 캡쳐 세션을 시작한다
             //    캡쳐 세션을 시작하면서 output을 할 surface와 카메라 상태체크 콜백을 받는다
             //    정상이면 캡쳐를 한다
             cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() { // 카메라 상태 콜백을 받는다  < 상단의 stateCallback 체크
                 @Override
                 public void onConfigured(CameraCaptureSession session) {
                     try {
-                        // 16. 캡쳐를 한후 14.캡쳐완료리스너에 완료사실을 알린다
+                        // 15. 캡쳐를 한후 16.캡쳐완료리스너에 완료사실을 알린다
                         session.capture(captureBuilder.build(), captureListener, mBackgroundHandler);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
@@ -263,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onConfigureFailed(CameraCaptureSession session) {
                 }
             }, mBackgroundHandler);
+
 
 
         } catch (CameraAccessException e) {
@@ -321,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
             }
             // 4. 권한이 있을경우 상태콜백과 함께 카메라를 열어준다
             manager.openCamera(cameraId, stateCallback, null);
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
